@@ -1,7 +1,9 @@
 model\Tugas.class
 model\TugasIndividu.class
 model\Mahasiswa.class
-view\TugasView.class
+model\PenyimpananData.class
+view\MainView.class
 model\TugasKelompok.class
-Main\main.class
+Main\Main.class
 controller\TugasController.class
+model\EntitasTugas.class

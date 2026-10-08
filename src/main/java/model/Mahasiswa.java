@@ -1,8 +1,8 @@
 package model;
 
 public class Mahasiswa {
-    private String nim;
-    private String nama;
+    private final String nim;
+    private final String nama;
 
     public Mahasiswa(String nim, String nama) {
         this.nim = nim;

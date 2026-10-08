@@ -1,24 +1,41 @@
 package controller;
 
-import java.util.ArrayList;
-import model.Tugas;
+import model.EntitasTugas;
 import model.TugasIndividu;
 import model.TugasKelompok;
 
+import java.util.ArrayList;
+
 public class TugasController {
-    private final ArrayList<Tugas> listTugasKu = new ArrayList<>();
+    private final ArrayList<EntitasTugas> listTugasKu = new ArrayList<>();
+    private static int counterID = 1;
+    private static final String PREFIX = "TGS-";
 
     public TugasController() {
-        listTugasKu.add(new TugasIndividu("T01", "JarKom", "Membuat Topologi", "2026-09-28 23:59", "Masukkan Kedrive"));
-        listTugasKu.add(new TugasKelompok("T02", "Sistam Basis Data", "Membuat Database", "2026-10-02 18:00", "Kelompok 3", 4));
+        // Dummy Data Awal
+        TugasIndividu t1 = new TugasIndividu(generateAutoKode(), "PBO", "Laporan Mini Project 3", "2026-10-15 23:59", "Spada");
+        TugasKelompok t2 = new TugasKelompok(generateAutoKode(), "Basis Data", "Desain ERD & Normalisasi", "2026-10-20 20:00", 4);
+        
+        t2.setSelesai(true); // Contoh 1 tugas sudah selesai
+        listTugasKu.add(t1);
+        listTugasKu.add(t2);
     }
 
-    public ArrayList<Tugas> getAllTugas() {
+    public String generateAutoKode() {
+        return String.format("%s%03d", PREFIX, counterID++);
+    }
+
+    public void tambahTugas(EntitasTugas t) {
+        listTugasKu.add(t);
+    }
+
+    public ArrayList<EntitasTugas> getAllTugas() {
         return listTugasKu;
     }
 
-    public Tugas cariTugas(String kodeTugas) {
-        for (Tugas t : listTugasKu) {
+    // Overloading 1: Cari berdasarkan kode
+    public EntitasTugas cariTugas(String kodeTugas) {
+        for (EntitasTugas t : listTugasKu) {
             if (t.getKodeTugas().equalsIgnoreCase(kodeTugas)) {
                 return t;
             }
@@ -26,20 +43,32 @@ public class TugasController {
         return null;
     }
 
-    public boolean tambahTugas(Tugas tugasBaru) {
-        if (cariTugas(tugasBaru.getKodeTugas()) != null) {
-            return false;
+    // Overloading 2: Cari berdasarkan nama matkul
+    public ArrayList<EntitasTugas> cariTugas(String namaMatkul, boolean isMatkul) {
+        ArrayList<EntitasTugas> hasil = new ArrayList<>();
+        for (EntitasTugas t : listTugasKu) {
+            if (t.getNamaMatkul().equalsIgnoreCase(namaMatkul)) {
+                hasil.add(t);
+            }
         }
-        listTugasKu.add(tugasBaru);
-        return true;
+        return hasil;
     }
 
     public boolean hapusTugas(String kodeTugas) {
-        Tugas t = cariTugas(kodeTugas);
+        EntitasTugas t = cariTugas(kodeTugas);
         if (t != null) {
             listTugasKu.remove(t);
             return true;
         }
         return false;
+    }
+
+    // Hitung statistik untuk Dashboard Stakeholder
+    public int getJumlahSelesai() {
+        int count = 0;
+        for (EntitasTugas t : listTugasKu) {
+            if (t.isSelesai()) count++;
+        }
+        return count;
     }
 }

@@ -1,15 +1,15 @@
 package model;
 
-public class TugasIndividu extends Tugas {
-    private String linkPengumpulan;
+public class TugasIndividu extends EntitasTugas {
+    private String platformPengumpulan;
 
-    public TugasIndividu(String kodeTugas, String namaMatkul, String detailTugas, String dateline, String linkPengumpulan) {
+    public TugasIndividu(String kodeTugas, String namaMatkul, String detailTugas, String dateline, String platformPengumpulan) {
         super(kodeTugas, namaMatkul, detailTugas, dateline);
-        this.linkPengumpulan = linkPengumpulan;
+        this.platformPengumpulan = platformPengumpulan;
     }
 
-    public String getLinkPengumpulan() { return linkPengumpulan; }
-    public void setLinkPengumpulan(String linkPengumpulan) { this.linkPengumpulan = linkPengumpulan; }
+    public String getPlatformPengumpulan() { return platformPengumpulan; }
+    public void setPlatformPengumpulan(String platformPengumpulan) { this.platformPengumpulan = platformPengumpulan; }
 
     @Override
     public String getTipeTugas() {
@@ -18,7 +18,8 @@ public class TugasIndividu extends Tugas {
 
     @Override
     public String cetakBaris() {
-        return String.format("| %-8s | %-10s | %-16s | %-22s | %-18s | %-20s |", 
-                getKodeTugas(), getTipeTugas(), getNamaMatkul(), getDetailTugas(), getDateline(), "Link: " + linkPengumpulan);
+        String detailWithPlatform = getDetailTugas() + " (" + platformPengumpulan + ")";
+        return String.format("| %-8s | %-10s | %-18s | %-26s | %-16s | %-11s |", 
+                getKodeTugas(), getTipeTugas(), getNamaMatkul(), detailWithPlatform, getDateline(), getStatusTeks());
     }
 }

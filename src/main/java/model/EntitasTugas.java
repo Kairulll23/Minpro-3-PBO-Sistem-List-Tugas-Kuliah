@@ -1,21 +1,21 @@
 package model;
 
-public abstract class Tugas {
-    private String kodeTugas;
+public abstract class EntitasTugas implements PenyimpananData {
+    private final String kodeTugas;
     private String namaMatkul;
     private String detailTugas;
     private String dateline;
+    private boolean isSelesai; // Fitur Menarik: Tracking Status
 
-    public Tugas(String kodeTugas, String namaMatkul, String detailTugas, String dateline) {
+    public EntitasTugas(String kodeTugas, String namaMatkul, String detailTugas, String dateline) {
         this.kodeTugas = kodeTugas;
         this.namaMatkul = namaMatkul;
         this.detailTugas = detailTugas;
         this.dateline = dateline;
+        this.isSelesai = false; // Default: Belum Selesai
     }
 
     public String getKodeTugas() { return kodeTugas; }
-    public void setKodeTugas(String kodeTugas) { this.kodeTugas = kodeTugas; }
-
     public String getNamaMatkul() { return namaMatkul; }
     public void setNamaMatkul(String namaMatkul) { this.namaMatkul = namaMatkul; }
 
@@ -25,6 +25,18 @@ public abstract class Tugas {
     public String getDateline() { return dateline; }
     public void setDateline(String dateline) { this.dateline = dateline; }
 
+    public boolean isSelesai() { return isSelesai; }
+    public void setSelesai(boolean selesai) { isSelesai = selesai; }
+
+    public String getStatusTeks() {
+        return isSelesai ? "SELESAI [v]" : "BELUM [x]";
+    }
+
+    // Abstract Method (Abstraction)
     public abstract String getTipeTugas();
-    public abstract String cetakBaris();
+
+    @Override
+    public String getKategoriFormat() {
+        return "[" + getTipeTugas().toUpperCase() + "]";
+    }
 }
